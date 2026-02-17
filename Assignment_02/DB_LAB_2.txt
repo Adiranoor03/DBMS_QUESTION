@@ -1,0 +1,172 @@
+SQL*Plus: Release 21.0.0.0.0 - Production on Mon Feb 16 13:25:44 2026
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Enter user-name: SYSTEM
+Enter password:
+Last Successful login time: Mon Feb 16 2026 13:22:45 +05:30
+
+Connected to:
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> CREATE TABLE Department(
+  2  dept_id INT PRIMARY KEY,
+  3  dept_name VARCHAR(50) NOT NULL,
+  4  office_location VARCHAR(100)
+  5  );
+
+Table created.
+
+SQL> DESC Department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPT_ID                                   NOT NULL NUMBER(38)
+ DEPT_NAME                                 NOT NULL VARCHAR2(50)
+ OFFICE_LOCATION                                    VARCHAR2(100)
+
+SQL> CREATE TABLE Student(
+  2  student_id INT PRIMARY KEY,
+  3  name VARCHAR(50) NOT NULL,
+  4  dob DATE,
+  5  gender VARCHAR(10),
+  6  contact_number VARCHAR(15),
+  7  dept_id INT,
+  8  FOREIGN KEY (dept_id)
+  9  REFERENCES Department(dept_id)
+ 10  );
+CREATE TABLE Student(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> DROP TABLE Student;
+
+Table dropped.
+
+SQL>  CREATE TABLE Student(
+  2  student_id INT PRIMARY KEY,
+  3   name VARCHAR(50) NOT NULL,
+  4   dob DATE,
+  5   gender VARCHAR(10),
+  6   contact_number VARCHAR(15),
+  7   dept_id INT,
+  8  FOREIGN KEY (dept_id)
+  9   REFERENCES Department(dept_id)
+ 10   );
+
+Table created.
+
+SQL> DESC Student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_ID                                NOT NULL NUMBER(38)
+ NAME                                      NOT NULL VARCHAR2(50)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(10)
+ CONTACT_NUMBER                                     VARCHAR2(15)
+ DEPT_ID                                            NUMBER(38)
+
+SQL> CREATE TABLE Faculty(
+  2  faculty_id INT PRIMARY KEY,
+  3  name VARCHAR(50) NOT NULL,
+  4  designation VARCHAR(50),
+  5  email VARCHAR(100) UNIQUE,
+  6  dept_id INT,
+  7  FOREIGN KEY (dept_id)
+  8   REFERENCES Department(dept_id)
+  9  );
+
+Table created.
+
+SQL> DESC faculty;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FACULTY_ID                                NOT NULL NUMBER(38)
+ NAME                                      NOT NULL VARCHAR2(50)
+ DESIGNATION                                        VARCHAR2(50)
+ EMAIL                                              VARCHAR2(100)
+ DEPT_ID                                            NUMBER(38)
+
+SQL> CREATE TABLE Course(
+  2  course_id INT PRIMARY KEY,
+  3  course_name VARCHAR(100) NOT NULL,
+  4  credits INT,
+  5  dept_id INT,
+  6   faculty_id INT,
+  7  FOREIGN KEY (dept_id)
+  8  REFERENCES Department(dept_id),
+  9  FOREIGN KEY (faculty_id)
+ 10  REFERENCES Faculty(faculty_id)
+ 11  );
+CREATE TABLE Course(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> DROP TABLE Course;
+
+Table dropped.
+
+SQL>  CREATE TABLE Course(
+  2  course_id INT PRIMARY KEY,
+  3   course_name VARCHAR(100) NOT NULL,
+  4   credits INT,
+  5   dept_id INT,
+  6  faculty_id INT,
+  7  FOREIGN KEY (dept_id)
+  8  REFERENCES Department(dept_id),
+  9   FOREIGN KEY (faculty_id)
+ 10   REFERENCES Faculty(faculty_id)
+ 11  ):
+ 12
+SQL> CREATE TABLE Course(
+  2   course_id INT PRIMARY KEY,
+  3   course_name VARCHAR(100) NOT NULL,
+  4   credits INT,
+  5   dept_id INT,
+  6   faculty_id INT,
+  7   FOREIGN KEY (dept_id)
+  8   REFERENCES Department(dept_id),
+  9   FOREIGN KEY (faculty_id)
+ 10   REFERENCES Faculty(faculty_id)
+ 11  );
+
+Table created.
+
+SQL> DESC Course;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ COURSE_ID                                 NOT NULL NUMBER(38)
+ COURSE_NAME                               NOT NULL VARCHAR2(100)
+ CREDITS                                            NUMBER(38)
+ DEPT_ID                                            NUMBER(38)
+ FACULTY_ID                                         NUMBER(38)
+
+SQL> CREATE TABLE Enrollment (
+  2  enrollment_id INT PRIMARY KEY,
+  3  student_id INT,
+  4   course_id INT,
+  5  semester VARCHAR(20),
+  6    grade VARCHAR(5),
+  7   FOREIGN KEY (student_id)
+  8   REFERENCES Student(student_id),
+  9  FOREIGN KEY (course_id)
+ 10  REFERENCES Course(course_id)
+ 11  );
+
+Table created.
+
+SQL> DESC Enrollment;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ENROLLMENT_ID                             NOT NULL NUMBER(38)
+ STUDENT_ID                                         NUMBER(38)
+ COURSE_ID                                          NUMBER(38)
+ SEMESTER                                           VARCHAR2(20)
+ GRADE                                              VARCHAR2(5)
+
+SQL>
